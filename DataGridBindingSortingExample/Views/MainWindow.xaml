@@ -1,0 +1,45 @@
+﻿<Window x:Class="DataGridBindingSortingExample.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:DataGridBindingSortingExample"
+        xmlns:behaviors="clr-namespace:DataGridBindingSortingExample.Behaviors"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <DataGrid
+        Grid.Row="0"
+        ItemsSource="{Binding Data}" AutoGenerateColumns="False"
+        IsReadOnly="True" SelectionMode="Single"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Count" Binding="{Binding Count}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" CanUserSort="False" />
+            </DataGrid.Columns>
+            <i:Interaction.Behaviors>
+                <behaviors:BindingSortBehavior
+                    OnUserSortCommand="{Binding OnUserSortCommand}"
+                    SortDirection="{Binding SortDirection}"
+                    SortMemberPath="{Binding SortMemberPath}"
+                />
+            </i:Interaction.Behaviors>
+        </DataGrid>
+        <StackPanel 
+            Orientation="Horizontal"
+            Grid.Row="1">
+            <Label Content="Sort by:"/>
+            <Label Content="{Binding SortMemberPath}" Width="100" />
+            <Label Content="Mode:"/>
+            <Label Content="{Binding SortDirection}" Width="100" />
+            <Button Content="Random Sort" Command="{Binding RandomSortCommand}" Width="90" />
+        </StackPanel>
+    </Grid>
+</Window>
